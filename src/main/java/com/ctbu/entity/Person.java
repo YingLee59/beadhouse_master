@@ -1,86 +1,31 @@
 package com.ctbu.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.*;
 import java.sql.Date;
 
 /**
- * @Description 员工和老人的抽象父类
+ * @Description  员工和老人的抽象父类
  * @Author LIYING
  */
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Person {
-    private String id;
+    private Integer id;
+    @NotBlank(message="姓名不能为空")
     private String name;
+    @NotBlank(message="性别不能为空")
     private String sex;
-    private Date birth;
+    private String birth;
+    @NotBlank(message="身份证不能为空")
+    @Pattern(regexp = "^\\d{18}$|^\\d{17}(X|x)$",message ="身份证格式不对")
     private String idCard;
+    @NotBlank(message="电话不能为空")
+    @Pattern(regexp = "^1(3|4|5|7|8)\\d{9}$",message="电话格式不对")
     private String telephone;
     private String address;
-
-    public Person() {
-    }
-
-    public Person(String id, String name, String sex, Date birth, String idCard, String telephone, String address) {
-        this.id = id;
-        this.name = name;
-        this.sex = sex;
-        this.birth = birth;
-        this.idCard = idCard;
-        this.telephone = telephone;
-        this.address = address;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
-
-    public Date getBirth() {
-        return birth;
-    }
-
-    public void setBirth(Date birth) {
-        this.birth = birth;
-    }
-
-    public String getIdCard() {
-        return idCard;
-    }
-
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
 }
