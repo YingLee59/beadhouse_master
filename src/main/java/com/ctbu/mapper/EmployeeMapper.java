@@ -19,9 +19,9 @@ public interface EmployeeMapper {
     //更新员工信息
     void updateEmployee(Employee employee);
     //通过员工编号删除员工
-    void deleteEmployee(Integer id);
+//    void deleteEmployee(Integer id);
     //通过员工id查询员工信息
-    Map<String,Object> getEmployeeById(Integer id);
+//    Map<String,Object> getEmployeeById(Integer id);
     //模糊查询
     List<Map<String,Object>> getEmp(Employee employee);
     //批量删除

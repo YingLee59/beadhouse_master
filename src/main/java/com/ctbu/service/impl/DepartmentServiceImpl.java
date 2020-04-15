@@ -38,6 +38,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public void updateDepartment(Department department) throws Exception {
-        departmentMapper.updateDep(department);
+         departmentMapper.updateDepartment(department);
     }
 }

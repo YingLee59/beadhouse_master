@@ -17,7 +17,9 @@ public enum ResultEnum {
     UPDATE_FAIL(406,"更新失败"),
     VERIFY_FAIL(407,"验证失败"),
     INSERT_FAIL(408,"插入失败"),
-    DATA_EXIST(409,"数据已存在")
+    DATA_EXIST(409,"数据已存在"),
+    UNKNOWN_ERROR(410,"未知错误"),
+    BIND_ERROR(1000,"")
     ;
     private Integer code;
     private String msg;

@@ -20,5 +20,6 @@
     <!--修改部门信息-->
     <update id="updateDepartment" parameterType="Department">
         update department set depName=#{depName}
+        where depId=#{depId}
     </update>
 </mapper>

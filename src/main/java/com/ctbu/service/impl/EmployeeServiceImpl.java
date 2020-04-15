@@ -25,13 +25,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void updateEmployee(Employee employee) throws Exception{
         employeeMapper.updateEmployee(employee);
     }
-    public void deleteEmployee(Integer id) throws Exception{
-        employeeMapper.deleteEmployee(id);
-    }
+//    public void deleteEmployee(Integer id) throws Exception{
+//        employeeMapper.deleteEmployee(id);
+//    }
 
-    public Map<String, Object> getEmployeeById(Integer id) {
-        return employeeMapper.getEmployeeById(id);
-    }
+//    public Map<String, Object> getEmployeeById(Integer id) {
+//        return employeeMapper.getEmployeeById(id);
+//    }
 
     public List<Map<String,Object>> getEmp(Employee employee){
         return employeeMapper.getEmp(employee);

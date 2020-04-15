@@ -21,6 +21,7 @@ public class Employee extends Person{
     private Integer dep;
     @NotBlank(message="职位不能为空")
     private String job;
+    @NotBlank(message="入职日期不能为空")
     private String hiredate;
     @Email
     private String email;

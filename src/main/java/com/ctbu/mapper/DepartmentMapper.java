@@ -22,5 +22,5 @@ public interface DepartmentMapper {
     //增加部门
     void insertDepartment(Department department);
     //修改部门信息
-    void updateDep(Department department);
+    void updateDepartment(Department department);
 }

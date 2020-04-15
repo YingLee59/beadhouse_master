@@ -7,6 +7,7 @@ import com.ctbu.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,7 +26,10 @@ public class EmployeeController {
     EmployeeService employeeService;
     @ApiOperation(value = "添加员工信息")
     @PostMapping("/insertemployee")
-    public Result insertEmployee(@Validated Employee employee) {
+    public Result insertEmployee(@RequestBody @Validated Employee employee, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return Result.error(ResultEnum.BIND_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
         try {
             employeeService.insertEmployee(employee);
             return Result.success();
@@ -36,7 +40,10 @@ public class EmployeeController {
 
     @PutMapping("/updateemployee")
     @ApiOperation(value = "更新员工信息")
-    public Result updateEmployee(@Validated Employee employee) {
+    public Result updateEmployee(@RequestBody @Validated Employee employee,BindingResult bindingResult) {
+        if(bindingResult.hasErrors()){
+            return Result.error(ResultEnum.BIND_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
         try {
             employeeService.updateEmployee(employee);
             return Result.success();
@@ -46,20 +53,20 @@ public class EmployeeController {
     }
 
 
-    @DeleteMapping("/deleteemployee")
-    @ApiOperation(value = "通过员工编号删除员工")
-    public Result deleteEmployee(@RequestParam Integer id) {
-        try {
-            Map<String,Object>  res = employeeService.getEmployeeById(id);
-            if (res != null&&!res.isEmpty()) {
-                employeeService.deleteEmployee(id);
-                return Result.success();
-            }
-            return Result.error(ResultEnum.DATA_IS_NULL.getCode(), ResultEnum.DATA_IS_NULL.getMsg());
-        } catch (Exception e) {
-            return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
-        }
-    }
+//    @DeleteMapping("/deleteemployee")
+//    @ApiOperation(value = "通过员工编号删除员工")
+//    public Result deleteEmployee(@RequestParam Integer id) {
+//        try {
+//            Map<String,Object>  res = employeeService.getEmployeeById(id);
+//            if (res != null&&!res.isEmpty()) {
+//                employeeService.deleteEmployee(id);
+//                return Result.success();
+//            }
+//            return Result.error(ResultEnum.DATA_IS_NULL.getCode(), ResultEnum.DATA_IS_NULL.getMsg());
+//        } catch (Exception e) {
+//            return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
+//        }
+//    }
     @ApiOperation(value = "通过不同条件查询员工信息（支持模糊查询）")
     @GetMapping("/getEmp")
     public Result getEmp(Employee employee){

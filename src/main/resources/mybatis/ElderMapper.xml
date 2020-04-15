@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.ElderMapper">
+    <!--通过不同条件查询老人信息-->
+    <select id="getElder" parameterType="Elder" resultType="Elder">
+        select * from elder
+        <where>
+            <if test="id != null and id !='' or id == 0">
+                and id = #{id}
+            </if>
+            <if test="name != null and name !='' ">
+                and name like '%' #{name} '%'
+            </if>
+            <if test="sex != null and sex !='' ">
+                and sex like '%' #{sex} '%'
+            </if>
+            <if test="birth!=null and birth !=''">
+                and date_format(birth,'%Y%m%d') like concat(concat('%',replace (#{birth},'-','')),'%')
+            </if>
+            <if test="idCard!=null and idCard !=''">
+                and idCard like '%' #{idCard} '%'
+            </if>
+            <if test="telephone!=null and telephone !=''">
+                and telephone like '%' #{telephone} '%'
+            </if>
+            <if test="address!=null and address !=''">
+                and address like '%' #{address} '%'
+            </if>
+            <if test="relaName != null and relaName != ''">
+                and relaName like '%' #{relaName} '%'
+            </if>
+            <if test="relaPhnoe != null and relaPhone != ''">
+                and relaPhnoe like '%' #{ralaPhone} '%'
+            </if>
+        </where>
+         order by id
+    </select>
+    <!--通过老人编号删除老人（可批量删除）-->
+    <delete id="deleteElder" parameterType="java.lang.Integer">
+        delete from elder
+        where id in
+        <foreach collection="array" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <!--添加老人信息-->
+    <insert id="insertElder" parameterType="Elder">
+        insert into elder(name,sex,birth,idCard,telephone,address,relaName,relaPhnoe)
+        values(#{name},#{sex},#{birth},#{idCard},#{telephone},#{address},#{relaName},#{relaPhnoe})
+    </insert>
+    <!--更新老人信息-->
+    <update id="updateElder" parameterType="Elder">
+        update elder set name=#{name},sex=#{sex},birth=#{birth},
+                         idCard=#{idCard},telephone=#{telephone},
+                         address=#{address},relaName=#{relaName},
+                         relaPhnoe=#{relaPhnoe}
+        where id = #{id}
+    </update>
+</mapper>

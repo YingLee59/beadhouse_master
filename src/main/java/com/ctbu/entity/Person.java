@@ -20,6 +20,7 @@ public class Person {
     private String name;
     @NotBlank(message="性别不能为空")
     private String sex;
+    @NotBlank(message="出生日期不能为空")
     private String birth;
     @NotBlank(message="身份证不能为空")
     @Pattern(regexp = "^\\d{18}$|^\\d{17}(X|x)$",message ="身份证格式不对")

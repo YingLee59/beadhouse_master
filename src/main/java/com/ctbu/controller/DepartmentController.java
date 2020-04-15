@@ -8,7 +8,9 @@ import com.ctbu.service.DepartmentService;
 import com.ctbu.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +20,7 @@ import java.util.List;
  * @Description
  * @Author LIYING
  */
+@Log //lombok插件中的日志注解
 @RestController
 @RequestMapping("/department")
 @Api(description = "部门信息管理")
@@ -61,7 +64,10 @@ public class DepartmentController {
     }
     @PostMapping("/insertDepartment")
     @ApiOperation(value = "新增部门")
-    public Result insertDepartment (@Validated Department department){
+    public Result insertDepartment (@RequestBody @Validated Department department,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return Result.error(ResultEnum.BIND_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
         try {
             departmentService.insertDepartment(department);
             return Result.success();
@@ -72,7 +78,10 @@ public class DepartmentController {
     }
     @PutMapping("/updateDepartment")
     @ApiOperation(value = "更新指定编号的部门信息")
-    public Result updateDepartment(@Validated Department department){
+    public Result updateDepartment(@RequestBody @Validated Department department,BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return Result.error(ResultEnum.BIND_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
+        }
         try{
             departmentService.updateDepartment(department);
             return Result.success();

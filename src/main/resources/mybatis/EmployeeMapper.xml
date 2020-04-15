@@ -14,17 +14,17 @@
         where id=#{id};
     </update>
     <!--删除指定员工信息-->
-    <delete id="deleteEmployee"  parameterType="java.lang.Integer">
-        delete from employee where id=#{id};
-    </delete>
+    <!--<delete id="deleteEmployee"  parameterType="java.lang.Integer">-->
+        <!--delete from employee where id=#{id};-->
+    <!--</delete>-->
     <!--通过员工编号查询员工信息-->
-    <select id="getEmployeeById"  parameterType="java.lang.Integer" resultType="map">
-        select id,name,sex,birth,idCard,telephone,address,dep,job,hiredate,email,depName
-        from employee  join department
-        on dep = depId
-        where id=#{id}
-        order by id;
-    </select>
+    <!--<select id="getEmployeeById"  parameterType="java.lang.Integer" resultType="map">-->
+        <!--select id,name,sex,birth,idCard,telephone,address,dep,job,hiredate,email,depName-->
+        <!--from employee  join department-->
+        <!--on dep = depId-->
+        <!--where id=#{id}-->
+        <!--order by id;-->
+    <!--</select>-->
     <!--模糊查询-->
     <select id="getEmp"  parameterType="Employee" resultType="map">
         select id,name,sex,birth,idCard,telephone,address,dep,job,hiredate,email,depName
@@ -41,7 +41,7 @@
                 and sex = #{sex}
             </if>
             <if test="birth!=null and birth !=''">
-                and date_format(birth,'%Y%m%d') like '%' #{birth} '%'
+                and date_format(birth,'%Y%m%d') like concat(concat('%',replace (#{birth},'-','')),'%')
             </if>
             <if test="idCard!=null and idCard !=''">
                 and idCard like '%' #{idCard} '%'
@@ -52,14 +52,14 @@
             <if test="address!=null and address !=''">
                 and address like '%' #{address} '%'
             </if>
-            <if test="dep!=null and dep !='' ==  dep!= 0">
+            <if test="dep!=null and dep !='' or  dep== 0">
                 and dep = #{dep}
             </if>
             <if test="job!=null and job !=''">
                 and job like '%' #{job} '%'
             </if>
-            <if test="hiredate!=null">
-                and date_format(hiredate,'%Y%m%d') like '%' #{hiredate} '%'
+            <if test="hiredate!=null and hiredate!=''">
+               and date_format(hiredate,'%Y%m%d') like concat(concat('%',replace (#{hiredate},'-','')),'%')
             </if>
             <if test="email!=null and email !=''">
                 and email like '%' #{email} '%'
