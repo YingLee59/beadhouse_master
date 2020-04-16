@@ -37,4 +37,7 @@ public class ElderServiceImpl implements ElderService {
     public int updateElder(Elder elder) throws Exception {
         return elderMapper.updateElder(elder);
     }
+    public Elder getOneElder(Integer id){
+        return elderMapper.getOneElder(id);
+    }
 }

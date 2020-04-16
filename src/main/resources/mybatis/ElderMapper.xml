@@ -29,8 +29,8 @@
             <if test="relaName != null and relaName != ''">
                 and relaName like '%' #{relaName} '%'
             </if>
-            <if test="relaPhnoe != null and relaPhone != ''">
-                and relaPhnoe like '%' #{ralaPhone} '%'
+            <if test="relaPhone != null and relaPhone != ''">
+                and relaPhone like '%' #{relaPhone} '%'
             </if>
         </where>
          order by id
@@ -45,15 +45,21 @@
     </delete>
     <!--添加老人信息-->
     <insert id="insertElder" parameterType="Elder">
-        insert into elder(name,sex,birth,idCard,telephone,address,relaName,relaPhnoe)
-        values(#{name},#{sex},#{birth},#{idCard},#{telephone},#{address},#{relaName},#{relaPhnoe})
+        insert into elder(name,sex,birth,idCard,telephone,address,relaName,relaPhone)
+        values(#{name},#{sex},#{birth},#{idCard},#{telephone},#{address},#{relaName},#{relaPhone
+})
     </insert>
     <!--更新老人信息-->
     <update id="updateElder" parameterType="Elder">
         update elder set name=#{name},sex=#{sex},birth=#{birth},
                          idCard=#{idCard},telephone=#{telephone},
                          address=#{address},relaName=#{relaName},
-                         relaPhnoe=#{relaPhnoe}
+                         relaPhone=#{relaPhone}
         where id = #{id}
     </update>
+    <!--通过老人编号获取老人信息-->
+    <select id="getOneElder" parameterType="java.lang.Integer" resultType="Elder">
+        select * from elder
+        where id=#{id}
+    </select>
 </mapper>

@@ -17,4 +17,6 @@ public interface ElderService {
     int insertElder(Elder elder) throws Exception;
 //    更新老人信息
     int updateElder(Elder elder) throws Exception;
+    //通过老人编号获取老人信息
+    Elder getOneElder(Integer id);
 }

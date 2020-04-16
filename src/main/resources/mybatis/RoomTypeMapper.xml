@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.RoomTypeMapper">
+    <!--查询所有房间类型-->
+    <select id="getAllRoomType" resultType="RoomType">
+        select * from roomType order by roomType
+    </select>
+    <!--通过编号查询房间类型-->
+    <select id="getOneType" parameterType="java.lang.Integer" resultType="RoomType">
+        select * from roomtype
+        where roomType=#{roomType}
+        order by roomType
+    </select>
+    <!--添加房间类型-->
+    <insert id="insertRoomType" parameterType="RoomType">
+        insert into roomtype(typeName, fee, maxNum)
+        VALUES (#{typeName},#{fee},#{maxNum})
+    </insert>
+    <!--通过编号删除房间类型-->
+    <delete id="deleteRoomType" parameterType="java.lang.Integer">
+        delete from roomtype
+        where roomType=#{roomType}
+    </delete>
+    <!--通过编号修改房间类型-->
+    <update id="updateRoomType" parameterType="RoomType">
+        update roomtype set typeName=#{typeName},fee=#{fee},maxNum=#{maxNum}
+        where roomType=#{roomType}
+    </update>
+</mapper>

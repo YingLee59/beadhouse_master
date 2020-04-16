@@ -22,5 +22,7 @@ public interface ElderMapper {
     int insertElder(Elder elder) throws Exception;
     //更新老人信息
     int updateElder(Elder elder) throws Exception;
+    //通过老人编号查询老人信息
+    Elder getOneElder(Integer id);
 
 }

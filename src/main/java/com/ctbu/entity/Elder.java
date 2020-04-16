@@ -17,5 +17,5 @@ import java.sql.Date;
 public class Elder extends Person{
     private String relaName;//亲属名称
     @Pattern(regexp = "^1(3|4|5|7|8)\\d{9}$|^$",message="电话格式不对")
-    private String relaPhnoe;//亲属电话
+    private String relaPhone;//亲属电话
 }

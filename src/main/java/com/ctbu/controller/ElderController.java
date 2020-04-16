@@ -66,7 +66,6 @@ public class ElderController {
                 return Result.error(ResultEnum.INSERT_FAIL.getCode(), ResultEnum.INSERT_FAIL.getMsg());
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(ResultEnum.INSERT_FAIL.getCode(), ResultEnum.INSERT_FAIL.getMsg());
         }
     }
@@ -85,7 +84,6 @@ public class ElderController {
                 return Result.error(ResultEnum.UPDATE_FAIL.getCode(), ResultEnum.UPDATE_FAIL.getMsg());
             }
         } catch (Exception e) {
-            e.printStackTrace();
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(), ResultEnum.UPDATE_FAIL.getMsg());
         }
     }

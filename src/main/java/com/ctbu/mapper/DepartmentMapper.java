@@ -15,7 +15,7 @@ import java.util.List;
 public interface DepartmentMapper {
     //查询所有部门
     List<Department> listDepartment();
-    //删除所有部门
+    //删除部门
     void deleteDepartment(Integer depId);
     //通过部门编号查询
     Department getDepartmentByDepId(Integer depId);

@@ -18,7 +18,9 @@ public enum ResultEnum {
     VERIFY_FAIL(407,"验证失败"),
     INSERT_FAIL(408,"插入失败"),
     DATA_EXIST(409,"数据已存在"),
-    UNKNOWN_ERROR(410,"未知错误"),
+    DEP_NOT_EXIST(410,"该编号部门不存在"),
+    ELDER_NOT_EXIST(411,"该编号老人不存在"),
+    HEALTH_EXIST(412,"该老人已存在健康档案"),
     BIND_ERROR(1000,"")
     ;
     private Integer code;

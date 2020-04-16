@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.HealthMapper">
+    <!--查询老人健康档案（可模糊查询）-->
+    <select id="getHealth" parameterType="Health" resultType="map">
+        select healthId,elderId,name,blood,selfCare,medicalHistory,
+        allergy from health join elder
+        on health.elderId = elder.id
+        <where>
+            <if test="healthId != null and healthId !='' or healthId == 0">
+                healthId=#{healthId}
+            </if>
+            <if test="elderId != null and elderId !='' or elderId == 0">
+                and elderId=#{elderId}
+            </if>
+            <if test="blood !=null and blood !=''">
+                and blood like '%' #{blood} '%'
+            </if>
+            <if test="selfCare !=null and selfCare !=''">
+                and selfCare like '%' #{selfCare} '%'
+            </if>
+            <if test="medicalHistory !=null and medicalHistory !=''">
+                and blood like '%' #{blood} '%'
+            </if>
+            <if test="allergy !=null and allergy !=''">
+                and allergy like '%' #{allergy} '%'
+            </if>
+        </where>
+        order by healthId
+    </select>
+    <!--新增老人健康档案-->
+    <insert id="insertHealth" parameterType="Health">
+        insert into health (elderId, blood, selfCare, medicalHistory, allergy)
+        values (#{elderId}, #{blood}, #{selfCare}, #{medicalHistory}, #{allergy})
+    </insert>
+    <!--更新老人健康档案-->
+    <update id="updateHealth" parameterType="Health">
+        update health
+        set blood   = #{blood},selfCare=#{selfCare},medicalHistory=#{medicalHistory},
+            allergy=#{allergy}
+        where healthId=#{healthId}
+    </update>
+</mapper>

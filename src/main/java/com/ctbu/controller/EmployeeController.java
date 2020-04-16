@@ -3,6 +3,7 @@ package com.ctbu.controller;
 import com.ctbu.entity.Employee;
 import com.ctbu.result.Result;
 import com.ctbu.result.ResultEnum;
+import com.ctbu.service.DepartmentService;
 import com.ctbu.service.EmployeeService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,6 +25,8 @@ import java.util.Map;
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
+    @Autowired
+    DepartmentService departmentService;
     @ApiOperation(value = "添加员工信息")
     @PostMapping("/insertemployee")
     public Result insertEmployee(@RequestBody @Validated Employee employee, BindingResult bindingResult) {
@@ -31,8 +34,12 @@ public class EmployeeController {
             return Result.error(ResultEnum.BIND_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
         try {
-            employeeService.insertEmployee(employee);
-            return Result.success();
+            if(departmentService.getDepartmentByDepId(employee.getDep())!=null)
+            {   employeeService.insertEmployee(employee);
+                return Result.success();
+            }else{
+                return Result.error(ResultEnum.DEP_NOT_EXIST.getCode(),ResultEnum.DEP_NOT_EXIST.getMsg());
+            }
         } catch (Exception e) {
             return Result.error(ResultEnum.INSERT_FAIL.getCode(), ResultEnum.INSERT_FAIL.getMsg());
         }
@@ -45,8 +52,12 @@ public class EmployeeController {
             return Result.error(ResultEnum.BIND_ERROR.getCode(),bindingResult.getFieldError().getDefaultMessage());
         }
         try {
-            employeeService.updateEmployee(employee);
-            return Result.success();
+            if(departmentService.getDepartmentByDepId(employee.getDep())!=null)
+            {   employeeService.updateEmployee(employee);
+                return Result.success();
+            }else{
+                return Result.error(ResultEnum.DEP_NOT_EXIST.getCode(),ResultEnum.DEP_NOT_EXIST.getMsg());
+            }
         } catch (Exception e) {
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(), ResultEnum.UPDATE_FAIL.getMsg());
         }
