@@ -29,9 +29,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 //        employeeMapper.deleteEmployee(id);
 //    }
 
-//    public Map<String, Object> getEmployeeById(Integer id) {
-//        return employeeMapper.getEmployeeById(id);
-//    }
+    public Employee getEmployeeById(Integer id) {
+        return employeeMapper.getEmployeeById(id);
+    }
 
     public List<Map<String,Object>> getEmp(Employee employee){
         return employeeMapper.getEmp(employee);

@@ -21,6 +21,9 @@ public enum ResultEnum {
     DEP_NOT_EXIST(410,"该编号部门不存在"),
     ELDER_NOT_EXIST(411,"该编号老人不存在"),
     HEALTH_EXIST(412,"该老人已存在健康档案"),
+    OUTRECORD_EXIST(413,"该老人外出未返，不能新增外出记录"),
+    EMPLOYEE_NOT_EXIST(414,"该编号员工不存在"),
+    LEAVE_EXIST(415,"该员工请假未返，不能新增请假记录"),
     BIND_ERROR(1000,"")
     ;
     private Integer code;

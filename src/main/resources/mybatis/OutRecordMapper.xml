@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.OutRecordMapper">
+    <!--查询全部外出记录-->
+    <select id="getAllOutRecord" resultType="map">
+        select outId,elderId,name,outTime,backTime,remark
+        from outrecord join elder on outrecord.elderId = elder.id
+        order by outId
+    </select>
+    <!--通过老人编号查询外出记录-->
+    <select id="getElderRecord" parameterType="java.lang.Integer" resultType="map">
+        select outId,elderId,name,outTime,backTime,remark
+        from outrecord join elder on elderId = id
+        where elderId = #{elderId}
+        order by outId DESC
+    </select>
+    <!--新增外出记录-->
+    <insert id="addOutRecord" parameterType="OutRecord" >
+        insert into outrecord(elderId,outTime,backTime,remark)
+        values(#{elderId},#{outTime},#{backTime},#{remark})
+    </insert>
+    <!--返院登记-->
+    <update id="addBackRecord">
+        update outrecord set backTime=now() where outId=#{outId}
+    </update>
+    <!--删除外出记录可批量删除-->
+    <delete id="deleteRecord" parameterType="java.lang.Integer">
+        delete from outrecord where outId in
+        <foreach collection="array" item="outId" open="(" separator="," close=")" >
+            #{outId}
+        </foreach>
+    </delete>
+    <select id="getOneRecord" parameterType="java.lang.Integer" resultType="OutRecord">
+        select * from outrecord
+        where outId = #{outId}
+    </select>
+    <select id="getNotBack" resultType="map">
+        select outId,elderId,name,telephone,relaName,relaPhone,
+        outTime,remark
+        from outrecord join elder on
+        outrecord.elderId=elder.id
+        where backTime is null
+    </select>
+</mapper>

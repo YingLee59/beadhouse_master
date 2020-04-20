@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.LeaveMapper">
+    <!--查询员工请假信息-->
+    <select id="getLeave" resultType="map">
+        select leaveId,
+               employeeId,
+               name,
+               leaveDate,
+               dueDate,
+               days,
+               realDays,
+               backDate,
+               reason
+        from leaves
+                 join employee on leaves.employeeId = employee.id
+        order by leaveId;
+    </select>
+    <!--查询未销假员工-->
+    <select id="getNotBack" resultType="map">
+        select leaveId,
+               employeeId,
+               name,
+               leaveDate,
+               dueDate,
+               days,
+               realDays,
+               reason,
+               telephone
+        from leaves
+                 join employee on leaves.employeeId = employee.id
+        where backDate is null
+        order by leaveId
+    </select>
+    <!--新增请假记录-->
+    <insert id="addLeave" parameterType="Leave">
+        insert into leaves (employeeId, leaveDate, dueDate, days, realDays, backDate, reason)
+        values (#{employeeId},
+                #{leaveDate},
+                #{dueDate},
+                format((UNIX_TIMESTAMP(#{dueDate}) - UNIX_TIMESTAMP(#{leaveDate})) / 60 / 60 / 24, 1),
+                #{realDays},
+                #{backDate},
+                #{reason})
+    </insert>
+    <!--销假-->
+    <update id="addBack">
+        update leaves set backDate=now(),realDays=format((UNIX_TIMESTAMP(backDate)-UNIX_TIMESTAMP(leaveDate))/60/60/24,1)
+        where leaveId = #{leaveId}
+    </update>
+    <!--删除员工请假记录（可批量删除）-->
+    <delete id="deleteLeave" parameterType="java.lang.Integer">
+        delete from leaves where leaveId in
+        <foreach collection="array" item="leaveId" open="(" separator="," close=")">
+            #{leaveId}
+        </foreach>
+    </delete>
+    <!--通过请假编号查询请假信息-->
+    <select id="getOneLeave" parameterType="java.lang.Integer" resultType="Leave">
+        select *
+        from leaves
+        where leaveId = #{leaveId}
+    </select>
+    <!--通过员工编号查询员工的请假情况-->
+    <select id="getLeaveByEmpId" parameterType="java.lang.Integer" resultType="map">
+        select leaveId,
+               employeeId,
+               name,
+               leaveDate,
+               dueDate,
+               days,
+               realDays,
+               backDate,
+               reason
+        from leaves
+                 join employee on leaves.employeeId = employee.id
+        where employeeId = #{employeeId}
+        order by leaveId desc
+    </select>
+</mapper>
