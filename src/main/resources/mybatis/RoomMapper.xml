@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.RoomMapper">
+    <!--通过房间编号查询-->
+    <select id="getRoom" parameterType="java.lang.String" resultType="map">
+        select id,roomId,r.roomType,typeName,fee,maxNum,state
+        from room r join roomtype
+        on r.roomType = roomtype.roomType
+        where roomId=#{roomId}
+        order by roomId
+    </select>
+    <!--通过房间类型编号查询-->
+    <select id="getRoomByType" parameterType="java.lang.Integer" resultType="map">
+        select id,roomId,r.roomType,typeName,fee,maxNum,state
+        from room r join roomtype
+        on r.roomType = roomtype.roomType
+        where r.roomType=#{roomType}
+        order by r.roomType
+    </select>
+    <!--查询空闲房间-->
+    <select id="getFree" resultType="map">
+        select id,roomId,r.roomType,typeName,fee,maxNum,state
+        from room r join roomtype
+        on r.roomType = roomtype.roomType
+        where state='空闲'
+        order by roomId
+    </select>
+    <!--新增房间-->
+    <insert id="addRoom" parameterType="Room">
+        insert into room(roomId,roomType) values(#{roomId},#{roomType})
+    </insert>
+    <!--通过房间编号删除房间-->
+    <delete id="deleteRoom" parameterType="java.lang.String">
+        delete from room where roomId=#{roomId}
+    </delete>
+    <!--修改房间信息-->
+    <update id="updateRoom">
+        update room set roomId=#{roomId},roomType=#{roomType}
+        where id=#{id}
+    </update>
+    <!--修改房间状态-->
+    <update id="updateStateFull" parameterType="java.lang.String">
+        update room set state='已满'
+        where roomId=#{roomId}
+    </update>
+    <!--通过房间编号查询房间类型-->
+    <select id="getType" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select roomType from room where roomId=#{roomId}
+    </select>
+    <!--修改房间状态-->
+    <update id="updateStateFree" parameterType="java.lang.String">
+        update room set state='空闲'
+        where roomId=#{roomId}
+    </update>
+</mapper>

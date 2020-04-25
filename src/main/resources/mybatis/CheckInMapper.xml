@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ctbu.mapper.CheckInMapper">
+    <!--查询入住记录-->
+    <select id="getCheckIn"  parameterType="CheckIn" resultType="map">
+        select checkId,elderId,name,ch.roomId,r.roomType,typeName,checkDate,
+               newCheckDate,outDate,prepaid,cost,balance
+        from checkin ch join elder on ch.elderId = elder.id
+                        join room r on r.roomId=ch.roomId
+                        join roomtype t on r.roomType=t.roomType
+        <where>
+            <if test="checkId != null and checkId !='' or checkId==0">
+                and checkId = #{checkId}
+            </if>
+            <if test="elderId != null and elderId !='' or elderId==0">
+                and ch.elderId = #{elderId}
+            </if>
+            <if test="roomId != null and roomId !='' ">
+                and ch.roomId = #{roomId}
+            </if>
+            <if test="checkDate != null and checkDate !=''">
+                and date_format(checkDate,'%Y%m%d') like concat(concat('%',replace (#{checkDate},'-','')),'%')
+            </if>
+            <if test="newCheckDate != null and newCheckDate !=''">
+                and date_format(newCheckDate,'%Y%m%d') like concat(concat('%',replace (#{newCheckDate},'-','')),'%')
+            </if>
+            <if test="outDate != null and outDate !=''">
+                and date_format(outDate,'%Y%m%d') like concat(concat('%',replace (#{outDate},'-','')),'%')
+            </if>
+        </where>
+        order by checkId
+    </select>
+    <!--通过房间号查询入住记录-->
+    <select id="getCheckInByRoomId" parameterType="java.lang.String" resultType="CheckIn">
+        select * from checkin where roomId=#{roomId}
+    </select>
+    <!--查询未退院老人-->
+    <select id="getElder" resultType="map">
+        select checkId,elderId,name,ch.roomId,r.roomType,typeName,checkDate,
+               newCheckDate,outDate,prepaid,cost,balance
+        from checkin ch join elder on ch.elderId = elder.id
+                        join room r on r.roomId=ch.roomId
+                        join roomtype t on r.roomType=t.roomType
+        where outDate is null
+        order by checkId
+    </select>
+    <!--新增入住记录-->
+    <insert id="addCheckIn" parameterType="CheckIn">
+        insert into checkin(elderId, roomId, checkDate, prepaid,balance)
+        values(#{elderId},#{roomId},#{checkDate},#{prepaid},#{balance})
+    </insert>
+    <!--通过老人编号查询入住记录-->
+    <select id="getCheckInByElderId" parameterType="java.lang.Integer" resultType="CheckIn">
+        select * from checkin where elderId=#{elderId}
+        order by checkId desc
+    </select>
+    <!--换房间-->
+    <update id="changeRoom">
+        update checkin set roomId = #{roomId}, newCheckDate=date_format(now(),'%y-%m-%d'),cost = #{cost}
+        ,balance=#{balance}
+        where checkId = #{checkId}
+    </update>
+    <!--续住-->
+    <update id="updateCheckIn">
+        update checkin set newCheckDate=#{newCheckDate},cost=#{cost},balance=#{balance}
+        where checkId=#{checkId}
+    </update>
+    <!--查询房间的入住人数-->
+    <select id="getNum" parameterType="java.lang.String" resultType="java.lang.Integer">
+        select count(*) from checkin where roomId=#{roomId} and outDate is NUll
+    </select>
+    <!--退房-->
+    <update id="deleteCheckIn" >
+        update checkin set outDate = DATE_FORMAT(now(),'%Y%m%d'),cost = #{cost},balance=#{balance} where checkId=#{checkId}
+    </update>
+    <!--通过入住编号查询入住记录-->
+    <select id="getCheckInById" parameterType="java.lang.Integer" resultType="CheckIn">
+        select * from checkin where checkId=#{checkId}
+    </select>
+    <!--更新已用费用和余额-->
+    <update id="updateFee">
+        update checkin set newCheckDate=#{newCheckDate},cost = #{cost},balance=#{balance} where checkId=#{checkId} and outDate is null
+    </update>
+</mapper>

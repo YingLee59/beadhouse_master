@@ -24,6 +24,12 @@ public enum ResultEnum {
     OUTRECORD_EXIST(413,"该老人外出未返，不能新增外出记录"),
     EMPLOYEE_NOT_EXIST(414,"该编号员工不存在"),
     LEAVE_EXIST(415,"该员工请假未返，不能新增请假记录"),
+    ROOMTYPE_NOT_EXIST(416,"该编号房间类型不存在"),
+    ROOM_EXIST(417,"该编号房间存在"),
+    CHECKIN_EXIST(418,"该编号老人已办理入住"),
+    ROOM_NOT_EXIST(419,"该编号房间不存在"),
+    ROOM_FULL(420,"该房间已满"),
+    ROOM_EXIST_ELDER(421,"该房间有人居住，不能删除！"),
     BIND_ERROR(1000,"")
     ;
     private Integer code;

@@ -20,7 +20,7 @@
                 and selfCare like '%' #{selfCare} '%'
             </if>
             <if test="medicalHistory !=null and medicalHistory !=''">
-                and blood like '%' #{blood} '%'
+                and medicalHistory like '%' #{medicalHistory} '%'
             </if>
             <if test="allergy !=null and allergy !=''">
                 and allergy like '%' #{allergy} '%'
