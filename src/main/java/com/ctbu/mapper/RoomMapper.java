@@ -1,6 +1,8 @@
 package com.ctbu.mapper;
 
 import com.ctbu.entity.Room;
+import com.ctbu.result.Result;
+import com.ctbu.result.ResultEnum;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
@@ -32,4 +34,6 @@ public interface RoomMapper {
     void updateStateFree(String roomId)throws Exception;
     //通过房间编号查询房间类型编号
     int getType(String roomId);
+    //查询所有房间
+    List<Map<String,Object>> getAll();
 }

@@ -64,6 +64,17 @@ public class RoomController {
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(), ResultEnum.DATA_IS_NULL.getMsg());
         }
     }
+    //查询所有房间
+    @GetMapping("/getAll")
+    @ApiOperation(value="查询所有房间")
+    public Result getAll(){
+        List<Map<String,Object>> res = roomService.getAll();
+        if (res != null && !res.isEmpty()) {
+            return Result.success(res);
+        } else {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(), ResultEnum.DATA_IS_NULL.getMsg());
+        }
+    }
     //新增房间
     @PostMapping("/addRoom")
     @ApiOperation(value="新增房间")

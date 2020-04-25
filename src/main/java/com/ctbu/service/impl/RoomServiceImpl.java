@@ -61,4 +61,9 @@ public class RoomServiceImpl implements RoomService {
     public void updateStateFree(String roomId) throws Exception {
         roomMapper.updateStateFree(roomId);
     }
+
+    @Override
+    public List<Map<String, Object>> getAll() {
+        return roomMapper.getAll();
+    }
 }

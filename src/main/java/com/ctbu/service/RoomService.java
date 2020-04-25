@@ -28,4 +28,6 @@ public interface RoomService {
     int getType(String roomId);
     //修改房间状态（空闲）
     void updateStateFree(String roomId)throws Exception;
+    //查询所有房间
+    List<Map<String,Object>> getAll();
 }

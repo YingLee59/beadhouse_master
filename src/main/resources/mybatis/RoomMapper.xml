@@ -52,4 +52,11 @@
         update room set state='空闲'
         where roomId=#{roomId}
     </update>
+    <!--查询所有房间-->
+    <select id="getAll" resultType="map">
+    select id,roomId,r.roomType,typeName,fee,maxNum,state
+    from room r join roomtype
+    on r.roomType = roomtype.roomType
+    order by roomId
+    </select>
 </mapper>
