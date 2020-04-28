@@ -1,8 +1,10 @@
 package com.ctbu.controller;
 
+import com.ctbu.entity.CheckIn;
 import com.ctbu.entity.Elder;
 import com.ctbu.result.Result;
 import com.ctbu.result.ResultEnum;
+import com.ctbu.service.CheckInService;
 import com.ctbu.service.ElderService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +24,9 @@ import java.util.List;
 @Api(description = "老人信息管理")
 public class ElderController {
     @Autowired
-    ElderService elderService;
+    private ElderService elderService;
+    @Autowired
+    private CheckInService checkInService;
 
     @ApiOperation(value = "通过不同条件获取老人信息")
     @GetMapping("/getElder")
@@ -38,18 +42,27 @@ public class ElderController {
 
     @ApiOperation(value = "删除老人（可批量删除）")
     @DeleteMapping("/deleteElder")
-    public Result deleteElder(@RequestParam Integer[] arr) {
-        try {
-            int rows = elderService.deleteElder(arr);
-            if (rows >= 1) {
-                return Result.success();
-            } else {
-                return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
-            }
-        } catch (Exception e) {
-            return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
 
+    public Result deleteElder(@RequestParam Integer[] arr) {
+        for(int i=0;i<arr.length;i++){
+            List<CheckIn> res = checkInService.getCheckInByElderId(arr[i]);
+            if(res!=null && ! res.isEmpty()&&res.get(0).getOutDate()==null){
+                return Result.error(ResultEnum.CHECKIN_EXIST.getCode(),ResultEnum.CHECKIN_EXIST.getMsg());
+            }else{
+                try {
+                    int rows = elderService.deleteElder(arr);
+                    if (rows >= 1) {
+                        return Result.success();
+                    } else {
+                        return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
+                    }
+                } catch (Exception e) {
+                    return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
+
+                }
+            }
         }
+        return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
     }
 
     @ApiOperation(value = "添加老人")

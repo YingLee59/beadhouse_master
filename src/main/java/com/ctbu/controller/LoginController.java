@@ -27,10 +27,7 @@ public class LoginController {
     @PutMapping("/updatePwd")
     @ApiOperation(value="修改用户密码")
     public Result updatePwd(@RequestParam String userName, @RequestParam String userPwd){
-        System.out.println(userName);
-        System.out.println(userPwd);
         String password= Md5Util.toMd5(userPwd);
-        System.out.println(password);
         loginService.updatePwd(userName,password);
         return Result.success();
     }
