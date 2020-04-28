@@ -24,8 +24,8 @@ public class ElderServiceImpl implements ElderService {
     }
 
     @Override
-    public int deleteElder(Integer[] arr) throws Exception{
-        return elderMapper.deleteElder(arr);
+    public void deleteElder(Integer id) throws Exception{
+        elderMapper.deleteElder(id);
     }
 
     @Override

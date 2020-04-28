@@ -40,30 +40,23 @@ public class ElderController {
 
     }
 
-    @ApiOperation(value = "删除老人（可批量删除）")
+    @ApiOperation(value = "删除老人")
     @DeleteMapping("/deleteElder")
 
-    public Result deleteElder(@RequestParam Integer[] arr) {
-        for(int i=0;i<arr.length;i++){
-            List<CheckIn> res = checkInService.getCheckInByElderId(arr[i]);
+    public Result deleteElder(@RequestParam Integer id) {
+            List<CheckIn> res = checkInService.getCheckInByElderId(id);
             if(res!=null && ! res.isEmpty()&&res.get(0).getOutDate()==null){
                 return Result.error(ResultEnum.CHECKIN_EXIST.getCode(),ResultEnum.CHECKIN_EXIST.getMsg());
             }else{
                 try {
-                    int rows = elderService.deleteElder(arr);
-                    if (rows >= 1) {
-                        return Result.success();
-                    } else {
-                        return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
-                    }
+                    elderService.deleteElder(id);
+                    return Result.success();
                 } catch (Exception e) {
                     return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
 
                 }
             }
         }
-        return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
-    }
 
     @ApiOperation(value = "添加老人")
     @PostMapping("/insertElder")
